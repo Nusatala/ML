@@ -16,7 +16,7 @@ music_instruments = [
 ]
 
 path = "./download/"
-final_size = 150
+final_size = 256
 
 
 # RESIZE WITH KEEPING THE SAME RATIO AS THE ORIGINAL FILE
