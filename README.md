@@ -2,7 +2,7 @@
 
 - Data Collection has done using web scraping method through Google Images.
 - Data Cleansing has done on images that is not relevant with the real traditional music instruments.
-- Data Resize has done by converting various different size of images onto the same size of 150x150 px.
+- Data Resize has done by converting various different size of images onto the same size of 256x256 px.
 - Data Detail:
   - Bonang: 127 images
   - Burdah: 31 images
