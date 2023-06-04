@@ -4,15 +4,15 @@ import sys
 
 music_instruments = [
     "Bonang",
-    "Burdah",
+    # "Burdah",
     "Kolintang",
     "Rebab",
     "Saluang",
     "Sape",
     "Sasando",
-    "Talindo",
+    # "Talindo",
     "Tifa",
-    "Yi"
+    # "Yi"
 ]
 
 path = "./download/"
@@ -48,7 +48,7 @@ def resize_aspect_fit(item):
 
 
 # RESIZE WITHOUT KEEPING THE SAME RATIO AS THE ORIGINAL FILE
-def resize_aspect_not_fit(item):
+def resize_grayscale_aspect_not_fit(item):
     print("starting to resize file")
     if item == '.DS_Store':
         print("failed to resize file")
@@ -56,7 +56,8 @@ def resize_aspect_not_fit(item):
         im = Image.open(item)
         f, e = os.path.splitext(item)
         imResize = im.resize((final_size, final_size), Image.ANTIALIAS)
-        imResize.save(f + '.jpg', 'JPEG', quality=90)
+        imGrayScale = imResize.convert('1', dither=Image.NONE)
+        imGrayScale.save(f + '.jpg', 'JPEG', quality=90)
     else:
         print("unkownn problems")
 
@@ -65,4 +66,4 @@ for dir in os.listdir(path):
     for item in os.listdir(path+dir):
         file = path+dir+"/"+item
         print(file, os.path.isfile(file))
-        resize_aspect_not_fit(file)
+        resize_grayscale_aspect_not_fit(file)
