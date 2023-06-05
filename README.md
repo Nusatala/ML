@@ -1,5 +1,4 @@
 ## Completing Data Collection and Cleansing, as well as with resize data onto same size
-
 ## Completing Model Buiding and Tuning
 ## Completing Model Deployment Setup
 
