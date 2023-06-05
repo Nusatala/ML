@@ -7,7 +7,8 @@ import numpy as np
 from flask import Flask, request, jsonify
 from werkzeug.utils import secure_filename
 
-UPLOAD_FOLDER = 'D:/Kuliah/_BANGKIT/CAPSTONE_ML/Google-Cloud-Deploy'
+UPLOAD_FOLDER = os.environ['APP_HOME']
+
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
 
 app = Flask(__name__)
