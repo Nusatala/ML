@@ -21,3 +21,7 @@
 - Model is deployed with Flask
 - Model is deployed in Google Cloud Platform
 - Model is deployed using CI/CD cycle and Docker
+
+- Running the following commands to deploy in Google Cloud Platform using Cloud SDK Shell:
+1. gcloud builds submit --tag gcr.io/<project_id>/index
+2. gcloud run deploy --image gcr.io/<project_id>/index --platform managed
