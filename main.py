@@ -1,11 +1,12 @@
+from werkzeug.utils import secure_filename
+from flask import Flask, request, jsonify
+import numpy as np
 import os
 import tensorflow as tf
 from tensorflow import keras
-from tensorflow.keras.preprocessing import image
-import numpy as np
+# from tensorflow.keras.preprocessing import image
+from PIL import Image
 
-from flask import Flask, request, jsonify
-from werkzeug.utils import secure_filename
 
 UPLOAD_FOLDER = os.environ['APP_HOME']
 
@@ -60,8 +61,9 @@ def index():
             if allowed_file(file.filename):
                 filename = secure_filename(file.filename)
                 file.save(os.path.join(UPLOAD_FOLDER, filename))
-                img = image.load_img(
-                    filename, target_size=(256, 256), color_mode='grayscale')
+                filepath = os.path.join(UPLOAD_FOLDER, filename)
+                img = tf.keras.utils.load_img(
+                    filepath, target_size=(256, 256), color_mode='grayscale')
                 label = prediksi_gambar(img)
                 return jsonify({"prediksi": label})
         except Exception as e:
