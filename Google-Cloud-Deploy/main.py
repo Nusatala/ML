@@ -1,13 +1,15 @@
+from werkzeug.utils import secure_filename
+from flask import Flask, request, jsonify
+import numpy as np
 import os
 import tensorflow as tf
 from tensorflow import keras
-from tensorflow.keras.preprocessing import image
-import numpy as np
+# from tensorflow.keras.preprocessing import image
+from PIL import Image
 
-from flask import Flask, request, jsonify
-from werkzeug.utils import secure_filename
 
-UPLOAD_FOLDER = 'D:/Kuliah/_BANGKIT/CAPSTONE_ML/Google-Cloud-Deploy'
+UPLOAD_FOLDER = os.environ['APP_HOME']
+
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
 
 app = Flask(__name__)
@@ -19,7 +21,7 @@ def prediksi_gambar(image_upload, model=model):
     im = image_upload
     im = np.asarray(im)
     im = im*(1/225)
-    im_input = tf.reshape(im, shape=[1, 256, 256, 1])
+    im_input = tf.reshape(im, shape=[1, 256, 256, 3])
 
     Y_pred = sorted(model.predict(im_input)[0])[2]
     y_pred = np.argmax(model.predict(im_input))
@@ -59,8 +61,9 @@ def index():
             if allowed_file(file.filename):
                 filename = secure_filename(file.filename)
                 file.save(os.path.join(UPLOAD_FOLDER, filename))
-                img = image.load_img(
-                    filename, target_size=(256, 256), color_mode='grayscale')
+                filepath = os.path.join(UPLOAD_FOLDER, filename)
+                img = tf.keras.utils.load_img(
+                    filepath, target_size=(256, 256))
                 label = prediksi_gambar(img)
                 return jsonify({"prediksi": label})
         except Exception as e:
