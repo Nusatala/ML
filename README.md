@@ -14,7 +14,7 @@
   - Sasando: 98 images
   - Tifa: 88 images
 
-- Model has been builded using custom model and adapted by custom datasets and model architecture.
+- Model has been builded using custom model and adapted by our own datasets and InceptionV3-based model architecture.
 - Model have better performance and precision than the previous model by converting all training images into grayscale
 
 - Model is saved in HDF5 format
