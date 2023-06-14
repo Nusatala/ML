@@ -6,6 +6,7 @@ import tensorflow as tf
 from tensorflow import keras
 # from tensorflow.keras.preprocessing import image
 from PIL import Image
+import urllib.request
 
 
 UPLOAD_FOLDER = os.environ['APP_HOME']
@@ -54,18 +55,35 @@ def allowed_file(filename):
 @app.route("/", methods=["GET", "POST"])
 def index():
     if request.method == "POST":
-        file = request.files.get("file")
-        if file is None or file.filename == "":
-            return jsonify({"error": "no file"})
+        # file = request.files.get("file")
+        # if file is None or file.filename == "":
+        #     return jsonify({"error": "no file"})
+        # try:
+        #     if allowed_file(file.filename):
+        #         filename = secure_filename(file.filename)
+        #         file.save(os.path.join(UPLOAD_FOLDER, filename))
+        #         filepath = os.path.join(UPLOAD_FOLDER, filename)
+        #         img = tf.keras.utils.load_img(
+        #             filepath, target_size=(256, 256))
+        #         label = prediksi_gambar(img)
+        #         return jsonify({"prediksi": label})
+        # except Exception as e:
+        #     return jsonify({"error": str(e)})
+
+        filepath = request.form.get("imageURL")
+        if filepath == "https//storage.googleapis.com/nusatala-images/user-scans/undefined":
+            return jsonify({"error": "no image URL"})
         try:
-            if allowed_file(file.filename):
-                filename = secure_filename(file.filename)
-                file.save(os.path.join(UPLOAD_FOLDER, filename))
-                filepath = os.path.join(UPLOAD_FOLDER, filename)
-                img = tf.keras.utils.load_img(
-                    filepath, target_size=(256, 256))
-                label = prediksi_gambar(img)
-                return jsonify({"prediksi": label})
+            filename = filepath.split("/")[-1]
+            new_filepath = os.path.join(UPLOAD_FOLDER, filename)
+            urllib.request.urlretrieve(filepath, new_filepath)
+            img = tf.keras.utils.load_img(
+                new_filepath, target_size=(256, 256))
+            label = prediksi_gambar(img)
+            return jsonify({
+                "prediction": label,
+                "imageURL": filepath
+            })
         except Exception as e:
             return jsonify({"error": str(e)})
 
